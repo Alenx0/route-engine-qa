@@ -2,8 +2,8 @@
 
 | ID | Título | Precondición | Pasos | Esperado | Obtenido | Estado | Prioridad |
 |----|--------|--------------|-------|----------|----------|--------|-----------|
-| CP-LOGIN-001 | Login exitoso con usuario válido | Usuario admin activo | 1. Abrir /login 2. Ingresar usuario 3. Ingresar clave 4. Clic en Entrar | Redirige a /dashboard | | | Alta |
-| CP-LOGIN-002 | Login con contraseña incorrecta | Usuario admin activo | 1. Abrir /login 2. Ingresar usuario válido 3. Ingresar clave incorrecta 4. Clic en Entrar | Responde 401 con mensaje "Credenciales inválidas" y permanece en /login | | | Alta |
+|| CP-LOGIN-001 | Login exitoso con usuario válido | Usuario admin activo | 1. Abrir /login 2. Ingresar usuario 3. Ingresar clave 4. Clic en Entrar | Redirige a /dashboard | Status 200, token con rol ADMIN, llegó al Dashboard | Pasó | Alta |
+| CP-LOGIN-002 | Login con contraseña incorrecta | Usuario admin activo | 1. Abrir /login 2. Ingresar usuario válido 3. Ingresar clave incorrecta 4. Clic en Entrar | Responde 401 con mensaje "Credenciales inválidas" y permanece en /login | Status 401, cuerpo "Credenciales inválidas". Pantalla: muestra "Credenciales inválidas" y permanece en /login | Pasó | Alta |
 | CP-LOGIN-003 | Login con usuario inexistente | El usuario no existe en el sistema | 1. Abrir /login 2. Ingresar usuario no registrado 3. Ingresar cualquier clave 4. Clic en Entrar | Responde 401 con el mismo mensaje genérico "Credenciales inválidas" que el CP-LOGIN-002 (sin revelar si el usuario existe) y permanece en /login | | | Alta |
 | CP-LOGIN-004 | Login con campos vacíos | Ninguna | 1. Abrir /login 2. Dejar usuario y clave vacíos 3. Clic en Entrar | Se marcan los campos como obligatorios y no se envía el formulario | | | Media |
 | CP-LOGIN-005 | Login con usuario inactivo | Usuario existente con estado inactivo | 1. Abrir /login 2. Ingresar usuario inactivo 3. Ingresar clave correcta 4. Clic en Entrar | Responde 403 con mensaje "Usuario inactivo" y no permite el acceso (pregunta abierta: el mensaje revela que el usuario existe, pero solo si la clave es correcta; confirmar si se acepta) | | | Media |
