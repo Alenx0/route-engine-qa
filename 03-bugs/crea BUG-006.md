@@ -19,7 +19,8 @@
 El sistema detecta la sesión inválida y redirige a /login.
 
 ## Resultado obtenido
-La ruta se mantiene en /dashboard. La consola muestra errores 422 (UNPROCESSABLE ENTITY) en todas las peticiones (analytics/dashboard, analytics/operational, settings, plans/modules, notifications/pending-counts, plans/my-permissions, onboarding/tasks, analytics/warehouse). El usuario no recibe ningún aviso.
+- Con el token alterado: la ruta se mantiene en /dashboard. Las peticiones responden 422 (UNPROCESSABLE ENTITY) en analytics/dashboard, analytics/operational, settings, plans/modules, notifications/pending-counts, plans/my-permissions, onboarding/tasks y analytics/warehouse. El usuario no recibe ningún aviso.
+- Con el token borrado: el sistema redirige a /login, pero sin ningún mensaje que explique por qué se cerró la sesión.
 
 ## Evidencia
 - Consola del navegador con las peticiones 422.
