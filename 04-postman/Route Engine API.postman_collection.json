@@ -1,0 +1,183 @@
+{
+  "info": {
+    "_postman_id": "6a1214b3-2841-4594-b191-97a0bd0faa02",
+    "name": "Route Engine API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status es 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Responde en menos de 2 segundos\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\npm.test(\"Trae access_token\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.access_token).to.be.a(\"string\");\r\n});\r\n\r\npm.test(\"El rol es ADMIN\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.user.role).to.eql(\"ADMIN\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@alenxo\",\r\n  \"password\": \"{{admin_password}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "BUG-004 clave de 73 bytes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Una clave larga NO debe provocar error 500 (BUG-004)\", function () {\r\n    pm.expect(pm.response.code).to.not.equal(500);\r\n});\r\n\r\npm.test(\"Una clave larga debe responder 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set(\"pwd_larga\", \"a\".repeat(73));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@alenxo\",\r\n  \"password\": \"{{pwd_larga}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Limite 72 bytes (borde valido)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"72 bytes es una clave valida de largo: responde 401, no 500\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"No hay error de servidor\", function () {\r\n    pm.expect(pm.response.code).to.be.below(500);\r\n});"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set(\"pwd_larga\", \"a\".repeat(72));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@alenxo\",\r\n  \"password\": \"{{pwd_larga}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login clave incorrecta",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status es 401\", function () {\r\n    pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Mensaje genérico\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.error).to.eql(\"Credenciales inválidas\");\r\n});\r\n\r\npm.test(\"No entrega token\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(body.access_token).to.be.undefined;\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@alenxo\",\r\n  \"password\": \"ClaveMala123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
