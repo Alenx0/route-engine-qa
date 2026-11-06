@@ -39,3 +39,15 @@ def test_clave_de_hasta_72_bytes_responde_401(largo):
 def test_clave_de_mas_de_72_bytes_debe_responder_401(largo):
     respuesta = intentar_login("a" * largo)
     assert respuesta.status_code == 401
+
+
+@pytest.mark.skipif(
+    not os.getenv("ADMIN_PASSWORD"),
+    reason="Falta la variable de entorno ADMIN_PASSWORD",
+)
+def test_login_admin_exitoso():
+    respuesta = intentar_login(os.getenv("ADMIN_PASSWORD"))
+    assert respuesta.status_code == 200
+    cuerpo = respuesta.json()
+    assert cuerpo["user"]["role"] == "ADMIN"
+    assert isinstance(cuerpo["access_token"], str)
