@@ -15,6 +15,7 @@ Los tiempos sirven para comparar rutas entre sí, no para prometer capacidad de 
 |------|-----------|---------|---------|-------|--------|-------|
 | pending-counts | 3.622 | 0 % | 97 ms | 202 ms | 653 ms | ~89 |
 | analytics/dashboard | 1.256 | 0 % | 292 ms | 571 ms | 812 ms | ~31 |
+| analytics/dashboard (con 500 servicios) | 777 | 0 % | 433 ms | 1,03 s | 1,42 s | ~19 |
 
 ## Con el límite de peticiones encendido (200 por hora por IP)
 - Rampa sobre pending-counts: ~200 respuestas 200 y ~7.700 respuestas 429 (97 % rechazadas).
