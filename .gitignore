@@ -3,3 +3,8 @@
 __pycache__/
 .pytest_cache/
 06-api-pytest/.qa_load_ids.json
+05-e2e-playwright/node_modules/
+05-e2e-playwright/test-results/
+05-e2e-playwright/playwright-report/
+05-e2e-playwright/blob-report/
+05-e2e-playwright/playwright/.cache/
