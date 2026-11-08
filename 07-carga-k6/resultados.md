@@ -26,3 +26,14 @@ Los tiempos sirven para comparar rutas entre sí, no para prometer capacidad de 
 - El rendimiento por segundo parece ser aproximadamente 1 / tiempo de una sola petición (hipótesis, sin confirmar la causa).
 - El login cuesta ~285 ms por bcrypt, a propósito.
 - Falta medir con volumen de datos realista y con pausas entre peticiones.
+
+| analytics/dashboard (con 500 servicios) | 777 | 0 % | 433 ms | 1,03 s | 1,42 s | ~19 |
+
+## Dashboard con 1 usuario y 500 servicios (5 repeticiones por variante)
+| Variante | Mediana | p(95) |
+|----------|---------|-------|
+| Sin fechas | 60 ms | 80 ms |
+| Este mes | 56 ms | 126 ms |
+| Este año | 97 ms | 103 ms |
+
+Con 1 usuario el dashboard tarda 60 a 100 ms. En la rampa de 20 usuarios la mediana fue de 433 ms, así que buena parte del tiempo parece ser espera en cola (hipótesis, no comprobada).
